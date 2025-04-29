@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DRB</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../style/setting.css" />
+  </head>
+  <body>
+   
+    <div class="container">
+      <div class="header">
+        <div
+          id="connect-camera"
+          class="active"
+          onclick="selectMenu('connect-camera')"
+        >
+          Camera
+        </div>
+        
+        <div id="ccd" onclick="selectMenu('ccd')">CCD</div>
+      
+        <div id="vision" onclick="selectMenu('vision')">Vision</div>
+        <div id="history" onclick="selectMenu('history')">History</div>
+      </div>
+      <!-- Connect Camera -->
+      <div id="connect-camera-content" class="content active">
+        <div>
+          <p>Select Camera</p>
+          <input
+            list="camera-list"
+            id="camera-select"
+            placeholder="Name camera"
+          />
+          <datalist id="camera-list">
+            <!-- Các giá trị sẽ được thêm động từ API -->
+          </datalist>
+        </div>
+        <div class="group-button">
+          <button id="connect-camera-btn">
+            <i class="fa-solid fa-plug"></i> Connect
+          </button>
+          <button id="disconnect-camera-btn">
+            <i class="fa-solid fa-power-off"></i> Disconnect
+          </button>
+        </div>
+        <!-- Div hiển thị kết quả kết nối -->
+        <div id="camera-connection-status"></div>
+      </div>
+      <!-- CCD -->
+      <div id="ccd-content" class="content">
+        <h3 id="name-model">Hello</h3>
+        <div class="res-container">
+          <p>Resolution</p>
+          <input
+            type="number"
+            min="0"
+            max="100"
+            placeholder="Width"
+            id="width"
+          />
+          <input type="number" placeholder="Height" id="height" />
+        </div>
+        <div class="offset-container">
+          <p>Offset</p>
+
+          <input type="number" placeholder="X" id="offsetX" />
+
+          <input type="number" placeholder="Y" id="offsetY" />
+        </div>
+        <div>
+          <p>Exposure</p>
+          <input type="number" id="exposure" />
+        </div>
+        <div>
+          <p>Gain</p>
+          <input type="number" id="gain" />
+        </div>
+        <div>
+          <p>Brightness</p>
+          <input type="number" id="brightness" />
+        </div>
+        <div class="group-container">
+          <button class="set-data" id="set-data-ccd">
+            <i class="fa-solid fa-cogs"></i> SET
+          </button>
+        </div>
+        <!-- Added Div for displaying response -->
+        <div class="statusParaResponseDiv" id="status-para-response"></div>
+      </div>
+
+
+      <!-- Vision -->
+      <div id="vision-content" class="content">
+        <div>
+          <p>Name model</p>
+          <input type="text" id="name-model-input-vision" />
+        </div>
+        <div>
+          <p>Python Test</p>
+          <input type="text" id="python-test-folder-vision" />
+          <button id="python-test-folder-btn" class="python-test-folder-btn">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>BROWSE</span>
+          </button>
+        </div>
+        <div>
+          <p>Python train</p>
+          <input type="text" id="python-train-folder-vision" />
+          <button id="python-train-folder-btn" class="python-train-folder-btn">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>BROWSE</span>
+          </button>
+        </div>
+        <div>
+          <p>Yolo</p>
+          <input type="text" id="yolo-folder-vision" />
+          <button id="yolo-folder-btn" class="yolo-folder-btn">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>BROWSE</span>
+          </button>
+        </div>
+        <div>
+          <p>Score</p>
+          <input type="number" id="score-input-vision" />
+        </div>
+        <div>
+          <p>Counter</p>
+          <input type="number" id="couter-input-vision" />
+        </div>
+        <div>
+          <p>Cycle time</p>
+          <input
+            type="number"
+            id="cycle-time-input-vision"
+            value="Cycle time"
+            readonly
+          />
+        </div>
+        <div>
+          <p>Max object</p>
+          <input type="number" id="max-object-input-vision" />
+        </div>
+        <div class="group-container">
+          <div class="btn-set-vision" id="btn-set-vision">
+            <i class="fa-solid fa-cogs"></i> SET
+          </div>
+        </div>
+        <!-- Added Div for displaying response -->
+        <div class="setVisionResponseDiv" id="setVisionResponseDiv"></div>
+      </div>
+
+      <!-- History -->
+      <div id="history-content" class="content">
+        <table>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Date</th>
+              <th>Model</th>
+              <th>Puchase Order</th>
+              <th>Machine</th>
+              <th>Couter</th>
+              <th>Path Img</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>11/6/2024</td>
+              <td>Model 1</td>
+              <td>DA</td>
+              <td>machine 1</td>
+              <td>17</td>
+              <td>C:/</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Javascript -->
+
+    <script src="../javascript/setting.js"></script>
+  </body>
+</html>

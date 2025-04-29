@@ -1,0 +1,60 @@
+{
+  "title": "SPINNING COUNTING SOFTWARE",
+  "buttons": {
+    "run": "RUN",
+    "live": "LIVE",
+    "trigger": "TRIGGER",
+    "save": "SAVE",
+    "test": "TEST",
+    "flash": "FLASH",
+    "setting": "SETTING",
+    "viewDefault": "VIEW DEFAULT",
+    "reset": "RESET"
+  },
+  "production": "Production",
+  "productName": "RT EX250 S4CD",
+  "searchPlaceholder": "Search...",
+  "details": {
+    "standard": "Standard",
+    "actual": "Actual",
+    "quantity": "Quantity",
+    "size": "Size",
+    "result": "Result"
+  },
+  "controls": {
+    "speed": "Speed",
+    "imageSize": "Image size"
+  },
+  "actions": {
+    "autoMenu": "AUTO MENU",
+    "training": "TRAINING",
+    "status": "STATUS"
+  },
+  
+  
+  "header": {
+    "ccd": "CCD",
+    "general": "General",
+    "communication": "Communication",
+    "history": "History"
+  },
+  "ccd-content": {
+    "title": "CCD",
+    "resolution": "Resolution",
+    "offset": "Offset",
+    "exposure": "Exposure",
+    "gain": "Gain",
+    "brightness": "Brightness",
+    "get-button": "GET",
+    "set-button": "SET"
+  },
+  "general-content": {
+    "title": "General Settings",
+    "image-size": "Image Size",
+    "store-data": "Store Data",
+    "share": "Share",
+    "day-save": "Day Save",
+    "method": "Method",
+    "string-db": "String DB"
+  }
+}

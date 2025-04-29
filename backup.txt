@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chọn và Cắt Ảnh với OpenCV</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/opencv.js"
+      onload="cvReady()"
+    ></script>
+
+    <script>
+      function cvReady() {
+        console.log("🔹 OpenCV đang tải...");
+        let checkInterval = setInterval(() => {
+          if (typeof cv !== "undefined" && cv.getBuildInformation) {
+            console.log("✅ OpenCV đã sẵn sàng!");
+            clearInterval(checkInterval);
+          }
+        }, 100);
+      }
+    </script>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 100px;
+        margin-top: 20px;
+      }
+      #canvas {
+        border: 2px solid black;
+        height: 150px;
+      }
+      #canvasOutput {
+        border: 2px solid black;
+        /* transform-origin: center;  */
+        height: 150px;
+      }
+      #controls {
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>🖼 Chọn ảnh và điều chỉnh vùng cắt</h2>
+    <input type="file" id="imageInput" accept="image/*" />
+
+    <div id="controls">
+      <button onclick="addShape('rect')">🔲 Chữ nhật</button>
+      <button onclick="addShape('circle')">⚫ Tròn</button>
+      <button onclick="addShape('triangle')">🔺 Tam giác</button>
+      <button onclick="cropImage()">✂ Cắt ảnh</button>
+    </div>
+
+    <div class="container">
+      <canvas id="canvas"></canvas>
+      <canvas id="canvasOutput"></canvas>
+    </div>
+
+    <script>
+      let canvas = new fabric.Canvas("canvas");
+      let uploadedImage;
+
+      document
+        .getElementById("imageInput")
+        .addEventListener("change", function (event) {
+          let file = event.target.files[0];
+          let reader = new FileReader();
+          reader.onload = function (e) {
+            fabric.Image.fromURL(e.target.result, function (image) {
+              uploadedImage = image;
+              canvas.clear();
+              let maxWidth = 500;
+              imageScale = maxWidth / image.width;
+              console.log("Image Scale: ", imageScale);
+
+              image.scale(imageScale);
+              canvas.setWidth(image.width * imageScale);
+              canvas.setHeight(image.height * imageScale);
+              canvas.add(image);
+              canvas.renderAll();
+              image.selectable = false;
+            });
+          };
+          reader.readAsDataURL(file);
+        });
+
+      function addShape(type) {
+        let shape;
+        switch (type) {
+          case "rect":
+            shape = new fabric.Rect({
+              left: 50,
+              top: 50,
+              width: 100,
+              height: 100,
+              fill: "transparent",
+              stroke: "red",
+              strokeWidth: 2,
+              selectable: true,
+            });
+            break;
+          case "circle":
+            shape = new fabric.Circle({
+              left: 50,
+              top: 50,
+              radius: 50,
+              fill: "transparent",
+              stroke: "red",
+              strokeWidth: 2,
+              selectable: true,
+            });
+            break;
+          case "triangle":
+            shape = new fabric.Triangle({
+              left: 50,
+              top: 50,
+              width: 100,
+              height: 100,
+              fill: "transparent",
+              stroke: "red",
+              strokeWidth: 2,
+              selectable: true,
+            });
+            break;
+        }
+        canvas.add(shape);
+      }
+      // =========================================================================================================================================
+
+      function cropImage() {
+        if (!uploadedImage) {
+          alert("Chưa có ảnh để cắt!");
+          return;
+        }
+
+        if (typeof cv === "undefined" || !cv.imread) {
+          alert("OpenCV chưa sẵn sàng! Vui lòng thử lại sau.");
+          return;
+        }
+
+        let activeObj = canvas.getActiveObject();
+        if (!activeObj) {
+          alert("Vui lòng chọn một vùng cần cắt!");
+          return;
+        }
+
+        // Lấy góc xoay của khung cắt
+        let angle = activeObj.angle;
+        console.log("Angle: ", angle);
+
+        // Tính toán tọa độ và kích thước vùng cắt trong không gian ban đầu của ảnh
+        let cropX = Math.round(activeObj.left / imageScale);
+        let cropY = Math.round(activeObj.top / imageScale);
+        let cropWidth = Math.round(activeObj.getScaledWidth() / imageScale);
+        let cropHeight = Math.round(activeObj.getScaledHeight() / imageScale);
+
+        if (cropWidth <= 0 || cropHeight <= 0) {
+          alert("Vùng cắt không hợp lệ!");
+          return;
+        }
+
+        // Đọc ảnh gốc từ DOM
+        let imgElement = uploadedImage.getElement();
+        let src = cv.imread(imgElement);
+
+        // Tính toán vùng cắt (đảm bảo không vượt quá giới hạn ảnh)
+        cropX = Math.max(0, Math.min(cropX, src.cols - 1));
+        cropY = Math.max(0, Math.min(cropY, src.rows - 1));
+        cropWidth = Math.min(cropWidth, src.cols - cropX);
+        cropHeight = Math.min(cropHeight, src.rows - cropY);
+
+        // Tạo một ma trận xoay để tính toán vùng cắt
+        let center = new cv.Point(
+          cropX + cropWidth / 2,
+          cropY + cropHeight / 2
+        );
+
+        // Tạo ma trận xoay (giữ góc của khung)
+        let rotationMatrix = cv.getRotationMatrix2D(center, angle, 1.0);
+
+        // Tạo một hình ảnh tạm thời để áp dụng phép xoay ngược
+        let rotatedImage = new cv.Mat();
+        console.log("Rotated Image: ", rotatedImage);
+        cv.warpAffine(
+          src,
+          rotatedImage,
+          rotationMatrix,
+          new cv.Size(src.cols, src.rows)
+        );
+
+        // Cắt ảnh từ hình ảnh đã xoay ngược
+        let rect = new cv.Rect(cropX, cropY, cropWidth, cropHeight);
+        let dst = rotatedImage.roi(rect);
+
+        // Hiển thị kết quả lên canvasOutput
+        let canvasOutputElement = document.getElementById("canvasOutput");
+        canvasOutputElement.width = cropWidth;
+        canvasOutputElement.height = cropHeight;
+
+        // Hiển thị ảnh đã cắt
+        cv.imshow("canvasOutput", dst);
+        canvasOutputElement.style.transform = `rotate(${angle}deg)`;
+        // Giải phóng bộ nhớ
+        src.delete();
+        rotatedImage.delete();
+        dst.delete();
+        rotationMatrix.delete();
+      }
+    </script>
+  </body>
+</html>
+

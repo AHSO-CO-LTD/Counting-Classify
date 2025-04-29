@@ -1,0 +1,13 @@
+train: D:/App-Test/Camera-Controler/backend/PhanLoaiOc/train/images
+val: D:/App-Test/Camera-Controler/backend/PhanLoaiOc/valid/images
+test: D:/App-Test/Camera-Controler/backend/PhanLoaiOc/test/images
+
+nc: 3
+names: ['Chot go', 'bulon', 'vit xoan']
+
+roboflow:
+  workspace: trieu-l6awr
+  project: phanloaioc
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/trieu-l6awr/phanloaioc/dataset/1

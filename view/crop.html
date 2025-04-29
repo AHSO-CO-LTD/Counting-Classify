@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chọn và Cắt Ảnh với OpenCV</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/opencv.js"
+      onload="cvReady()"
+    ></script>
+
+    <script>
+      function cvReady() {
+        console.log("🔹 OpenCV đang tải...");
+        let checkInterval = setInterval(() => {
+          if (typeof cv !== "undefined" && cv.getBuildInformation) {
+            console.log("✅ OpenCV đã sẵn sàng!");
+            clearInterval(checkInterval);
+          }
+        }, 100);
+      }
+    </script>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 100px;
+        margin-top: 20px;
+      }
+      #canvas {
+        border: 2px solid black;
+        height: 150px;
+      }
+      #canvasOutput {
+        border: 2px solid black;
+        /* transform-origin: center;  */
+        height: 150px;
+      }
+      #controls {
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Chọn ảnh và điều chỉnh vùng cắt</h2>
+    <h3>Cắt ảnh từ dữ liệu có sẵn.</h3>
+    <input
+      type="file"
+      id="jsonFileInput"
+     onchange="loadAndDrawCroppedRegions(this)"
+    />
+    <h3>Chọn hình ảnh để cắt</h3>
+    <input type="file" id="imageInput" accept="image/*" />
+
+    <div id="controls">
+      <button onclick="addShape('rect')">🔲 Chữ nhật</button>
+      <button onclick="addShape('circle')">⚫ Tròn</button>
+      <button onclick="addShape('triangle')">🔺 Tam giác</button>
+      <button onclick="addShape('roundness')">⭕ Tròn xuyến</button>
+      <button onclick="cropImages()">✂ Cắt ảnh</button>
+      <button onclick="clearCanvas()">❌ Xóa khung chọn</button>
+      <button onclick="clearAllCanvas()">❌ Xóa tất cả khung</button>
+      <button onclick="saveCroppedImage()">💾 Lưu ảnh</button>
+      <button onclick="saveCropDataToJSON()">💾 Lưu thông số</button>
+    </div>
+
+    <div class="container">
+      <canvas id="canvas"></canvas>
+      <!-- <canvas id="canvasOutput"></canvas> -->
+      <div
+        id="outputContainer"
+        style="display: flex; gap: 10px; flex-wrap: wrap"
+      ></div>
+    </div>
+
+    <script src="../javascript/cropImage.js"></script>
+  </body>
+</html>

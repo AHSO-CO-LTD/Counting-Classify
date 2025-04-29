@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spinning Counting Software</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: auto;
+        background: #ffffff;
+        color: #333;
+        overflow: hidden;
+        flex-direction: column;
+      }
+
+      .intro-container {
+        text-align: center;
+        opacity: 0;
+        animation: fadeIn 1s forwards;
+        position: relative;
+        z-index: 1;
+      }
+
+      img {
+        width: 30vw;
+        height: auto;
+        animation: scaleIn 1s forwards;
+        filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.4));
+        transition: transform 0.4s ease, filter 0.4s ease, box-shadow 0.4s ease;
+      }
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes scaleIn {
+        0% {
+          transform: scale(0.5);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .loading {
+        margin-top: 5vh;
+        position: relative;
+        display: flex;
+        justify-content: center;
+      }
+      .loading span {
+        position: relative;
+        width: 2vw;
+        height: 5px;
+      }
+      .loading span::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: #0f0;
+        box-shadow: 0 0 5px #0f0, 0 0 15px #0f0, 0 0 30px #0f0, 0 0 50px #0f0;
+        animation: animate 4s linear infinite;
+        animation-delay: calc(var(--i)) * 0.1s;
+      }
+      @keyframes animate {
+        0% {
+            transform-origin: 0 20px;
+            filter: hue-rotate(0deg);
+        }
+        20% {
+            transform: rotate(calc(-90deg * var(--i)));
+        }
+        60% {
+            transform: rotate(calc(0deg * var(--i)));
+        }
+        100% {
+            transform: hue-rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="intro-container">
+      <img src="./images/0659dfc95f9aa2b772c45b66f2a24c7514.png" alt="Logo" />
+      <div class="loading">
+        <span style="--i: 1"></span>
+        <span style="--i: 2"></span>
+        <span style="--i: 3"></span>
+        <span style="--i: 4"></span>
+        <span style="--i: 5"></span>
+        <span style="--i: 6"></span>
+        <span style="--i: 7"></span>
+        <span style="--i: 8"></span>
+        <span style="--i: 9"></span>
+        <span style="--i: 10"></span>
+        <span style="--i: 11"></span>
+        <span style="--i: 12"></span>
+        <span style="--i: 13"></span>
+        <span style="--i: 14"></span>
+        <span style="--i: 15"></span>
+        <span style="--i: 16"></span>
+        <span style="--i: 17"></span>
+        <span style="--i: 18"></span>
+        <span style="--i: 19"></span>
+        <span style="--i: 20"></span>
+      </div>
+    </div>
+
+    <script>
+      setTimeout(() => {
+          window.location.href = "index.html";
+      }, 4000);
+    </script>
+  </body>
+</html>

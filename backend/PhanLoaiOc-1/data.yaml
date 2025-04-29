@@ -1,0 +1,14 @@
+names:
+- Chot go
+- bulon
+- vit xoan
+nc: 3
+roboflow:
+  license: CC BY 4.0
+  project: phanloaioc
+  url: https://universe.roboflow.com/trieu-l6awr/phanloaioc/dataset/1
+  version: 1
+  workspace: trieu-l6awr
+test: ../test/images
+train: ../train/images
+val: ../valid/images

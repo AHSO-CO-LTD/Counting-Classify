@@ -1,0 +1,301 @@
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 90%;
+  max-width: 800px;
+  background-color: #f7f9fc;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+.container .content {
+  display: none;
+  background-color: #ecf0f1;
+  color: #f7f9fc;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+.container .content.active {
+  display: block;
+}
+.container .content p {
+  font-weight: 500;
+  color: #34495e;
+}
+.container .content input,
+.container .content select,
+.container .content textarea {
+  padding: 2vh 1vw;
+  font-size: 1rem;
+  border: 2px solid 0 6px 12px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  color: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+  width: 80%;
+  padding: 10px;
+  margin: 7px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.container .content input:focus,
+.container .content select:focus,
+.container .content textarea:focus {
+  border-color: #1abc9c;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  background-color: white;
+  outline: none;
+  border: 2px solid #1abc9c;
+}
+.container .content input::-moz-placeholder, .container .content select::-moz-placeholder, .container .content textarea::-moz-placeholder {
+  color: rgba(128, 128, 128, 0.8);
+}
+.container .content input::placeholder,
+.container .content select::placeholder,
+.container .content textarea::placeholder {
+  color: rgba(128, 128, 128, 0.8);
+}
+.container .content input:focus,
+.container .content select:focus,
+.container .content textarea:focus {
+  border-color: #1abc9c;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.container .header {
+  display: flex;
+  justify-content: space-around;
+  background-color: #1abc9c;
+  padding: 2vh 2vw;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+.container .header div {
+  flex: 1;
+  color: #ecf0f1;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 1vh 1.5vh;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  text-align: center;
+}
+.container .header div:hover, .container .header div.active {
+  background-color: #16a085;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+.container #connect-camera-content,
+.container #ccd-content,
+.container #history-content,
+.container #vision-content {
+  margin-top: 10px;
+  padding: 20px;
+}
+.container #connect-camera-content div,
+.container #ccd-content div,
+.container #history-content div,
+.container #vision-content div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.container #connect-camera-content div p,
+.container #ccd-content div p,
+.container #history-content div p,
+.container #vision-content div p {
+  width: 20%;
+  font-size: 0.95em;
+  font-weight: 400;
+}
+.container #connect-camera-content button,
+.container #ccd-content button,
+.container #history-content button,
+.container #vision-content button {
+  background-color: #1abc9c;
+  color: #ecf0f1;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 100px;
+  height: 50px;
+  font-size: 0.8rem;
+  border: none;
+  border: #16a085;
+  background-color: #dd6b20;
+}
+.container #connect-camera-content button:hover,
+.container #ccd-content button:hover,
+.container #history-content button:hover,
+.container #vision-content button:hover {
+  background-color: #1fe0ba;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px) scale(1.02);
+}
+.container #connect-camera-content button:active,
+.container #ccd-content button:active,
+.container #history-content button:active,
+.container #vision-content button:active {
+  background-color: #17a689;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.2);
+  transform: translateY(2px) scale(0.98);
+}
+.container #connect-camera-content button:hover,
+.container #ccd-content button:hover,
+.container #history-content button:hover,
+.container #vision-content button:hover {
+  background-color: rgba(221, 108, 32, 0.8274509804);
+}
+.container #connect-camera-content .group-button {
+  display: flex;
+  align-items: center;
+  width: 33%;
+  gap: 10px;
+}
+.container #connect-camera-content #connect-camera-btn {
+  background-color: #1abc9c;
+}
+.container #connect-camera-content #connect-camera-btn:hover {
+  background-color: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+.container #connect-camera-content #camera-connection-status {
+  margin-top: 10px;
+}
+.container #ccd-content h3 {
+  color: #34495e;
+}
+.container #ccd-content .res-container,
+.container #ccd-content .offset-container {
+  gap: 10px;
+}
+.container #ccd-content .res-container p,
+.container #ccd-content .offset-container p {
+  width: 20%;
+}
+.container #ccd-content .res-container input[type=number],
+.container #ccd-content .offset-container input[type=number] {
+  width: 40%;
+}
+.container #ccd-content .statusParaResponseDiv {
+  color: #34495e;
+  margin-top: 1vh;
+  font-size: 1rem;
+}
+.container #vision-content #python-test-folder-vision,
+.container #vision-content #python-train-folder-vision,
+.container #vision-content #yolo-folder-vision {
+  width: 63%;
+}
+.container #vision-content .group-container .btn-set-vision {
+  background-color: #1abc9c;
+  color: #ecf0f1;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 100px;
+  height: 50px;
+  font-size: 0.8rem;
+  border: none;
+  border: #16a085;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  font-size: 0.8rem;
+  height: 7vh;
+  width: 13vw;
+  background-color: #dd6b20;
+}
+.container #vision-content .group-container .btn-set-vision:hover {
+  background-color: #1fe0ba;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px) scale(1.02);
+}
+.container #vision-content .group-container .btn-set-vision:active {
+  background-color: #17a689;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.2);
+  transform: translateY(2px) scale(0.98);
+}
+b .container #vision-content .group-container .btn-set-vision:hover {
+  background-color: #c05621;
+}
+.container #vision-content div button {
+  background-color: #1abc9c;
+  color: #ecf0f1;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 100px;
+  height: 50px;
+  font-size: 0.8rem;
+  border: none;
+  border: #16a085;
+  margin-left: 10px;
+}
+.container #vision-content div button:hover {
+  background-color: #1fe0ba;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px) scale(1.02);
+}
+.container #vision-content div button:active {
+  background-color: #17a689;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.2);
+  transform: translateY(2px) scale(0.98);
+}
+.container #vision-content .setVisionResponseDiv {
+  margin-top: 1.5vh;
+}
+.container #history-content {
+  padding: 1vh;
+}
+.container #history-content table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  color: #34495e;
+}
+.container #history-content table th,
+.container #history-content table td {
+  padding: 0.5rem;
+  text-align: left;
+  border: 1px solid #1abc9c;
+  font-size: 1rem;
+}
+.container #history-content table th {
+  background-color: #1abc9c;
+  color: #ecf0f1;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+.container #history-content table tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.container #history-content table tr:hover {
+  background-color: #1dd2af;
+  color: #ecf0f1;
+  transition: background-color 0.3s ease;
+}/*# sourceMappingURL=setting.css.map */

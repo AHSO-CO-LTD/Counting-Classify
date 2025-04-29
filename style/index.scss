@@ -1,0 +1,566 @@
+// Define color variables
+$primary-color: #1abc9c;
+$primary-dark: #16a085;
+$secondary-color: #e74c3c;
+$secondary-dark: #c0392b;
+$background-color: #ecf0f1;
+$text-color: rgb(241, 239, 239);
+$hover-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+$border-radius: 8px;
+$stop-color: #ffc107;
+// Màu sắc và các biến
+$status-bg: rgba(0, 0, 0, 0.8); // Nền trạng thái
+$status-color: #34495e; // Màu chữ
+$status-padding: 10px 20px;
+$status-margin: 1vh;
+$status-duration: 3s; // Thời gian hiển thị trạng thái
+// Mixin for button styles
+
+@mixin button-style($primary-color, $text-color) {
+  background: $primary-color;
+  color: $text-color;
+  padding: 1vh 1vw;
+  border-radius: 10px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 0.9vw;
+  cursor: pointer;
+  display: inline-block;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(182, 182, 182, 0.3);
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(
+      135deg,
+      lighten($primary-color, 10%),
+      lighten($primary-dark, 10%)
+    );
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5),
+      inset 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+}
+// Input style
+@mixin input-style() {
+  padding: 2vh 1vw;
+  font-size: 1vw;
+  border: 2px solid $text-color;
+  border-radius: $border-radius;
+  color: $status-bg;
+  width: 90%;
+  background-color: $text-color;
+  transition: all 0.3s ease; // Thêm hiệu ứng chuyển đổi mượt mà
+  &:focus {
+    border-color: $primary-color;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    background-color: lighten($text-color, 10%);
+    outline: none;
+    border: 2px solid $primary-color;
+  }
+  &::placeholder {
+    color: lighten($status-bg, 50%);
+  }
+}
+// Font-size icon
+@mixin icon-style($text-color) {
+  font-size: 1.5vw;
+  margin-bottom: 5px;
+}
+@property --a {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background-color: $background-color;
+  font-size: 1vw;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+// Loading connect to python
+#loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  text-align: center;
+  padding-top: 22%;
+  z-index: 1000;
+  p {
+    font-size: 2vw;
+    text-shadow: 2px 2px 4px rgba(228, 215, 215, 0.7);
+    animation: shake 1s infinite alternate, shadow 1.5s infinite alternate;
+  }
+}
+@keyframes shake {
+  0% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(5px);
+  }
+}
+@keyframes shadow {
+  0% {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  }
+  50% {
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+  }
+  100% {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  }
+}
+.header {
+  background-color: $secondary-color;
+  color: $text-color;
+  padding: 5px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 10;
+
+  .logo {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    animation: logoAnimation 6s ease-in-out infinite;
+    padding-bottom: 2px;
+    img {
+      height: 8vh;
+      width: 8vw;
+      transition: transform 0.5s ease, filter 0.5s ease;
+      animation: imgAnimation 6s ease-in-out infinite;
+    }
+  }
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    flex: 1;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    color: $text-color;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.2),
+      0 3px 8px rgba(0, 0, 0, 0.2);
+
+    animation: text3d 2s ease-in-out infinite;
+
+    @keyframes text3d {
+      0% {
+        transform: translateZ(0);
+      }
+      50% {
+        transform: translateZ(10px);
+      }
+      100% {
+        transform: translateZ(0);
+      }
+    }
+  }
+
+  .language {
+    background-color: $secondary-dark;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: relative;
+
+    &:hover {
+      background-color: darken($secondary-dark, 10%);
+    }
+
+    select {
+      background-color: $secondary-dark;
+      color: $text-color;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      appearance: none;
+
+      option {
+        background-color: white;
+        color: black;
+      }
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: linear-gradient(to right, $secondary-color, $secondary-dark);
+    border-radius: 0 0 10px 10px;
+  }
+}
+
+.main {
+  display: flex;
+  padding: 20px;
+
+  .left-panel {
+    display: flex;
+    flex-direction: column;
+    margin-right: 1vw;
+    width: 65%;
+    height: 90vh;
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      .button-group-left,
+      .button-group-right {
+        display: flex;
+        gap: 1vw;
+        .button {
+          @include button-style($primary-color, $text-color);
+          height: 7.5vh;
+          width: 5vw;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          i {
+            @include icon-style($text-color);
+            margin-bottom: 5px;
+          }
+          span {
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+    // =========== Left center ===========
+    .left-center {
+      margin-top: 1vh;
+      height: 76vh;
+      width: 100%;
+      background-color: $background-color;
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s;
+      // border: 1px solid red;
+      // =========== Result Camera ===========
+      .container-result-camera {
+        height: 20vh;
+        width: 100%;
+        display: flex;
+        .container-result {
+          display: flex;
+          align-items: center;
+          gap: 1vw;
+          width: 100%;
+          .result-production {
+            @include button-style(#27ae60, $text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 15vh;
+            width: 50%;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            &:hover {
+              background: #27ae60;
+              transform: none;
+            }
+            span {
+              font-size: 3vw;
+            }
+          }
+          // ======== Count ==========
+          .count-container {
+            display: flex;
+            width: 50%;
+            justify-content: space-between;
+            align-items: center;
+            position: relative; // Đảm bảo canvas nằm trong container này
+            .counting {
+              position: relative;
+              width: 100%;
+              height: 15vh;
+              background: repeating-conic-gradient(
+                from var(--a),
+                $primary-color 0%,
+                $primary-color 5%,
+                transparent 5%,
+                transparent 40%,
+                $primary-color 50%
+              );
+              animation: rotating 2s linear infinite;
+              border-radius: 15px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              .count-actual,
+              .count-standard {
+                position: absolute;
+                color: white;
+                font-weight: bold;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 99;
+                font-size: 3vw;
+                border-radius: 10px;
+              }
+
+              &::after {
+                content: "";
+                position: absolute;
+                inset: 4px;
+                border: 6px solid #25252b;
+                border-radius: 15px;
+                background: #2d2d39;
+              }
+            }
+
+            // Đảm bảo canvas không tràn ra ngoài container này
+            canvas {
+              position: absolute;
+              object-fit: cover;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              border-radius: 15px;
+            }
+          }
+
+          @keyframes rotating {
+            0% {
+              --a: 0deg;
+            }
+            100% {
+              --a: 360deg;
+            }
+          }
+        }
+      }
+      // =========== View Camera ===========
+      .camera {
+        height: 57vh;
+        width: 100%;
+        border-radius: 0 0 10px 10px;
+        transition: box-shadow 0.3s;
+        display: flex;
+        flex-direction: column;
+        margin-top: -20px;
+        h5 {
+          margin-bottom: 5px;
+          color: $primary-dark;
+        }
+        .canvas-container {
+          object-fit: contain;
+          width: 100%;
+          height: 40%;
+          border-radius: 10px;
+        }
+        img {
+          object-fit: contain;
+          width: 100%;
+          height: 40%;
+          border-radius: 10px;
+        }
+      }
+    }
+
+    .status-container {
+      position: fixed;
+      color: $text-color;
+      bottom: 2px;
+      left: 10px;
+      z-index: 9999;
+    }
+  }
+
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: $background-color;
+    padding: 0px 15px; // Tăng padding để phù hợp chiều cao
+    border-radius: 10px;
+    color: $text-color;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+    width: 35%;
+    height: 86.5vh;
+
+    &:hover {
+      box-shadow: $hover-shadow;
+    }
+
+    .production {
+      @include button-style($primary-dark, $text-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 7vh; // Tăng chiều cao để phù hợp tổng thể
+      font-size: 1.2vw; // Tăng font-size
+
+      .search-container {
+        background-color: $background-color;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        input {
+          @include input-style();
+          border: none;
+          &:focus {
+            border: none;
+            box-shadow: none;
+          }
+        }
+        .search {
+          width: 6vw; // Tăng chiều rộng
+        }
+        i {
+          @include icon-style($primary-color);
+          color: $primary-color;
+          margin-right: 10px;
+        }
+      }
+      &:hover {
+        background: $primary-color;
+        transform: none;
+        box-shadow: none;
+      }
+    }
+
+    //  ================= Details ==================
+    .details {
+      background-color: $primary-dark; /* Giữ nguyên màu nền */
+      padding: 0 1vw;
+      border-radius: 8px;
+      height: 30vh;
+      table {
+        width: 100%;
+        border-collapse: separate; // Thay đổi sang "separate"
+        border-spacing: 0; // Giữ khoảng cách giữa các border
+        margin: 10px 0 10px 0;
+        border-radius: $border-radius; // Bo góc
+        overflow: hidden; // Giữ bo góc với shadow
+        font-size: 1.2vw;
+        thead {
+          button {
+            @include button-style($primary-color, $text-color);
+            width: 6vw;
+            height: 8vh;
+            border: none;
+            outline: none;
+          }
+        }
+        tbody {
+          input {
+            @include input-style();
+            margin: 0;
+            padding: 7px;
+            width: 4.5vw;
+            font-size: 1.3vw;
+          }
+        }
+        th,
+        td {
+          padding: 0.5vw;
+          text-align: left;
+        }
+        th {
+          background-color: $primary-dark;
+          color: $text-color;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+      }
+    }
+
+    //  ================= Cycle Time Section, Footer Right Section ==================
+    .cycle-time,
+    .footer-right {
+      background-color: $primary-dark; /* Giữ nguyên màu nền */
+      border-radius: $border-radius; /* Tăng độ bo tròn */
+      font-size: 1.2vw;
+      padding: 1.2vw;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+      .cycle-time-display {
+        display: flex;
+        justify-content: space-between;
+
+        .title {
+          font-weight: 600;
+          color: #ecf0f1; /* Tăng độ tương phản */
+        }
+      }
+    }
+    .cycle-time {
+      height: 8vh;
+    }
+    // Footer Right Section
+    .footer-right {
+      height: 18vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .footer-item {
+        display: flex;
+        align-items: center;
+
+        .title {
+          width: 30%;
+          font-weight: bold;
+          color: #ecf0f1;
+        }
+
+        .value {
+          width: 50%;
+          color: $text-color;
+          font-weight: bold;
+          text-align: right;
+        }
+
+        .unit {
+          width: 20%;
+          color: #ecf0f1;
+          text-align: right;
+        }
+      }
+      button {
+        @include button-style($primary-color, $text-color);
+        border: none;
+        outline: none;
+      }
+    }
+    // Show status
+    .show-status {
+      display: flex;
+      justify-content: right;
+      margin-bottom: $status-margin;
+      color: $status-color;
+    }
+  }
+}

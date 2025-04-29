@@ -1,0 +1,38 @@
+{
+  "imageId": 1741409139103,
+  "shape": [
+    {
+      "shapeId": 1,
+      "shapeMode": "rect",
+      "angle": 334.9342412225163,
+      "cropX": 752,
+      "cropY": 323,
+      "cropWidth": 96,
+      "cropHeight": 149,
+      "result": false,
+      "score": 0
+    },
+    {
+      "shapeId": 2,
+      "shapeMode": "rect",
+      "angle": 0,
+      "cropX": 684,
+      "cropY": 648,
+      "cropWidth": 77,
+      "cropHeight": 173,
+      "result": false,
+      "score": 0
+    },
+    {
+      "shapeId": 3,
+      "shapeMode": "rect",
+      "angle": 290.27924317074877,
+      "cropX": 913,
+      "cropY": 812,
+      "cropWidth": 81,
+      "cropHeight": 159,
+      "result": false,
+      "score": 0
+    }
+  ]
+}

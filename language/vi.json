@@ -1,0 +1,59 @@
+{
+  "title": "PHẦN MỀM ĐẾM SỢI",
+  "buttons": {
+    "run": "CHẠY",
+    "live": "TRỰC TIẾP",
+    "trigger": "KÍCH HOẠT",
+    "save": "LƯU",
+    "test": "KIỂM TRA",
+    "flash": "ĐÈN",
+    "setting": "CÀI ĐẶT",
+    "viewDefault": "XEM MẶC ĐỊNH",
+    "reset": "ĐẶT LẠI"
+  },
+  "production": "Sản xuất",
+  "productName": "RT EX250 S4CD",
+  "searchPlaceholder": "Tìm kiếm...",
+  "details": {
+    "standard": "Tiêu chuẩn",
+    "actual": "Thực tế",
+    "quantity": "Số lượng",
+    "size": "Kích thước",
+    "result": "Kết quả"
+  },
+  "controls": {
+    "speed": "Tốc độ",
+    "imageSize": "Kích thước ảnh"
+  },
+  "actions": {
+    "autoMenu": "MENU TỰ ĐỘNG",
+    "training": "ĐÀO TẠO",
+    "status": "TRẠNG THÁI"
+  },
+
+  "header": {
+    "ccd": "CCD",
+    "general": "Chung",
+    "communication": "Giao tiếp",
+    "history": "Lịch sử"
+  },
+  "ccd-content": {
+    "title": "CCD",
+    "resolution": "Độ phân giải",
+    "offset": "Bù trừ",
+    "exposure": "Phơi sáng",
+    "gain": "Độ lợi",
+    "brightness": "Độ sáng",
+    "get-button": "LẤY",
+    "set-button": "ĐẶT"
+  },
+  "general-content": {
+    "title": "Cài đặt chung",
+    "image-size": "Kích thước hình ảnh",
+    "store-data": "Lưu trữ dữ liệu",
+    "share": "Chia sẻ",
+    "day-save": "Ngày lưu",
+    "method": "Phương pháp",
+    "string-db": "Chuỗi DB"
+  }
+}

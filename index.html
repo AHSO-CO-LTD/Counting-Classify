@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>I COUNTING SOFTWARE</title>
+    <link rel="stylesheet" href="./style/index.css" />
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="header">
+      <img
+        src="./assets/VISION CENTER LOGOMAIN LOGO - HORIZONTAL.png"
+        alt="logo"
+        class="logo"
+      />
+      <h1>I COUNTING SOFTWARE</h1>
+      <button class="exit-btn"><i class="fas fa-sign-out-alt"></i> Exit</button>
+    </div>
+
+    <div class="main">
+      <div class="left-panel">
+        <h2><i class="fas fa-cogs"></i> Parameter</h2>
+        <div class="form-group">
+          <label><i class="fas fa-camera"></i> Camera:</label>
+          <select>
+            <option>Itrayple</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-image"></i> Image Size:</label>
+          <input type="text" value="1626x1236" />
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-clock"></i> Circle Time:</label>
+          <input id="circle-time" type="text" value="1000" />
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-search-plus"></i> Zoom Factor:</label>
+          <select>
+            <option>0.7</option>
+          </select>
+        </div>
+        <div class="checkbox-group">
+          <label><input type="checkbox" /> Show Box</label>
+          <label><input type="checkbox" /> Show Full</label>
+          <label><input type="checkbox" checked /> Show Circle</label>
+          <label><input type="checkbox" /> Show Score</label>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-sun"></i> Exposure:</label>
+          <input type="text" value="500" />
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-hashtag"></i> Total Countable:</label>
+          <input type="text" value="25" id="total-countable" />
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-layer-group"></i> Counter Quantity:</label>
+          <input type="text" value="0" id="counter-quantity" />
+        </div>
+        <div class="form-group">
+          <label>Line 1:</label>
+          <select>
+            <option>2</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Line 2:</label>
+          <select>
+            <option>3</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-video"></i> FPS:</label>
+          <input type="text" value="25" disabled />
+        </div>
+      </div>
+
+      <div class="center-panel">
+        <div class="button-group">
+          <button id="connect-camera-btn">
+            <i class="fas fa-video"></i> Connect Camera
+          </button>
+          <button id="trigger-btn" disabled>
+            <i class="fas fa-bolt"></i> Trigger
+          </button>
+          <button id="continuous-btn" disabled>
+            <i class="fas fa-sync-alt"></i> Trigger Continuous
+          </button>
+          <button id="reset-btn">
+            <i class="fas fa-undo-alt"></i> Reset Counter
+          </button>
+        </div>
+        <div class="status-group">
+          <label><input type="checkbox" /> Online</label>
+          <label><input type="checkbox" /> Record Image</label>
+        </div>
+        <div class="video-box">
+          <img id="processed-image" alt=" " />
+        </div>
+        <div class="count-results">
+          <h3><i class="fas fa-calculator"></i> Counting Result</h3>
+          <div class="result-row">
+            <div class="result-item">
+              <label>Chot go:</label>
+              <span id="chotgo-result">0</span>
+            </div>
+            <div class="result-item">
+              <label>Bulon:</label>
+              <span id="bulon-result">0</span>
+            </div>
+            <div class="result-item">
+              <label>Vit xoan:</label>
+              <span id="vitxoan-result">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-panel">
+        <div class="io-box">
+          <h3><i class="fas fa-plug"></i> I / O</h3>
+          <label><input type="checkbox" /> Input</label>
+          <label><input type="checkbox" /> Output</label>
+          <button class="test-btn">
+            <i class="fas fa-vial"></i> Test Output
+          </button>
+        </div>
+        <div class="remove-dup">
+          <h3><i class="fas fa-clone"></i> Remove Duplicates</h3>
+          <div class="form-group">
+            <label>Threshold Box:</label>
+            <select>
+              <option>0.8</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Threshold Mns:</label>
+            <select>
+              <option>0.65</option>
+            </select>
+          </div>
+        </div>
+        <div class="expected-quantity">
+          <h3><i class="fas fa-list-ol"></i> Expected Quantity</h3>
+          <div class="expected-row">
+            <div class="expected-item">
+              <label>Chot go:</label>
+              <input
+                type="number"
+                placeholder="Enter quantity"
+                id="expected-chotgo"
+                value="10"
+              />
+            </div>
+            <div class="expected-item">
+              <label>Bulon:</label>
+              <input
+                type="number"
+                placeholder="Enter quantity"
+                id="expected-bulon"
+                value="10"
+              />
+            </div>
+            <div class="expected-item">
+              <label>Vit xoan:</label>
+              <input
+                type="number"
+                placeholder="Enter quantity"
+                id="expected-vitxoan"
+                value="5"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./javascript/index.js"></script>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+{
+    "DeviceInformation": {
+        "DeviceName": "Basler ace acA1920-40gm",
+        "DeviceModel": "acA1920-40gm",
+        "DeviceVendor": "Basler",
+        "DeviceVersion": "1.0",
+        "SerialNumber": "123456789",
+        "FirmwareVersion": "2.3.4"
+    },
+    "ImageSettings": {
+        "Width": 1920,
+        "Height": 1080,
+        "PixelFormat": "Mono8",
+        "OffsetX": 0,
+        "OffsetY": 0,
+        "BinningHorizontal": 1,
+        "BinningVertical": 1
+    },
+    "AcquisitionSettings": {
+        "ExposureTime": {
+            "Value": 20000,
+            "Min": 10,
+            "Max": 1000000,
+            "Unit": "microseconds"
+        },
+        "Gain": {
+            "Value": 5,
+            "Min": 0,
+            "Max": 48,
+            "Unit": "dB"
+        },
+        "AcquisitionMode": "Continuous",
+        "FrameRate": {
+            "Value": 30,
+            "Min": 1,
+            "Max": 120,
+            "Unit": "fps"
+        },
+        "TriggerMode": "On",
+        "TriggerSource": "Line1",
+        "TriggerActivation": "RisingEdge"
+    },
+    "ColorSettings": {
+        "BalanceWhiteAuto": "Continuous",
+        "WhiteBalanceRed": 1.2,
+        "WhiteBalanceBlue": 1.5
+    },
+    "NetworkSettings": {
+        "IPAddress": "192.168.0.2",
+        "SubnetMask": "255.255.255.0",
+        "Gateway": "192.168.0.1",
+        "MacAddress": "00:1C:2B:3D:4E:5F"
+    },
+    "UserDefinedSettings": {
+        "UserSetSelector": "Default",
+        "UserSetSave": true
+    }
+}

@@ -1,0 +1,387 @@
+
+
+
+# # =====================================  Backup Trigger  ===================================== 
+# # Thư mục để lưu hình ảnh
+# IMAGE_FOLDER = "images"
+# os.makedirs(IMAGE_FOLDER, exist_ok=True)
+
+# @app.route('/api/trigger', methods=['POST'])
+# def trigger():
+#     global camera
+#     if camera is None:
+#         return jsonify({"message": "Camera is not connected"}), 400
+#     try:
+#         grab_result = camera.GrabOne(1000)
+#         if grab_result.GrabSucceeded():
+#             image = grab_result.Array
+            
+#             # Tạo tên file hình ảnh dựa trên timestamp
+#             timestamp = int(time.time())  # Lấy thời gian hiện tại dưới dạng số giây
+#             image_filename = f"triggered_image_{timestamp}.jpg"
+#             image_path = os.path.join(IMAGE_FOLDER, image_filename)
+            
+#             # Lưu ảnh vào thư mục 'images'
+#             cv2.imwrite(image_path, image)
+#             grab_result.Release()
+
+#             image_test = "./images/UpCamera (21643460)_20241121_143939078_0846.png"
+
+#             # Sử dụng model YOLOv8 để nhận diện đối tượng ảnh
+#             results = model.predict(image_test, save=True, save_dir=IMAGE_FOLDER)
+
+
+#             print(f"sadsaaaaaaaaaaaaaaaaaa {results.save_dir}")
+#             # Lấy tên file của ảnh đã xử lý
+#             processed_image_filename = os.path.basename(image_path)
+
+#             # Xây dựng URL cho ảnh đã xử lý
+#             processed_image_url = f"/image/{processed_image_filename}"
+
+#             # Trích xuất danh sách các đối tượng nhận diện từ `results`
+#             detections = results[0].boxes  # Đây là danh sách các bounding boxes
+#             detection_count = len(detections)  # Số lượng đối tượng nhận diện
+
+#             # Trả về URL ảnh đã xử lý
+#             return jsonify({
+#                 "message": "Trigger successful", 
+#                 "image_url": processed_image_url,
+#                 "results": detection_count
+#             })
+#         else:
+#             return jsonify({"message": "Error in trigger"}), 500
+#     except Exception as e:
+#         return jsonify({"message": f"Error: {e}"}), 500
+
+# # Endpoint để hiển thị kết quả trên HTML
+# @app.route('/image/<filename>')
+# def serve_image(filename):
+#     return send_from_directory(IMAGE_FOLDER, filename)
+
+
+# =====================================  Test  ===================================== 
+let isGrabbing = false; // Trạng thái để dừng hoặc chạy vòng lặp
+
+document.getElementById("start-grab").addEventListener("click", async () => {
+  if (isGrabbing) {
+    console.log("Grabbing is already running.");
+    return;
+  }
+  isGrabbing = true;
+
+  const updateResults = async () => {
+    try {
+      const response = await window.api.startGrab();
+
+      const imageUrl = response.processed_image_url;
+      const result = response.results;
+
+      // Hiển thị kết quả
+      resullCouting.textContent = result;
+
+      // Hiển thị hình ảnh
+      processedImage.src = imageUrl;
+
+      if (isGrabbing) {
+        // Gọi lại hàm sau 1 giây (hoặc khoảng thời gian tùy chọn)
+        setTimeout(updateResults, 1000); // 1000ms = 1s
+      }
+    } catch (error) {
+      console.error("Error during grabbing:", error);
+      isGrabbing = false; // Dừng nếu có lỗi
+    }
+  };
+
+  updateResults(); // Bắt đầu vòng lặp
+});
+
+// Nút để dừng vòng lặp
+document.getElementById("stop-grab").addEventListener("click", () => {
+  isGrabbing = false;
+  console.log("Grabbing stopped.");
+});
+
+
+# =========================================================================================
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Camera Control</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style/index.css" />
+  </head>
+  <body>
+    <div class="header">Camera Control</div>
+
+    <div class="container">
+      <div class="content">
+        <div class="left-panel">
+          <div class="buttons-group">
+            <div class="buttons-left">
+              <!-- Run -->
+              <button class="start-grab" id="start-grab">
+                <i class="fas fa-solid fa-play"></i>
+                RUN
+              </button>
+              <button class="stop-grab" id="stop-grab">
+                <i class="fas fa-solid fa-stop"></i>
+                STOP
+              </button>
+              <!-- Live -->
+              <button class="live" id="live">
+                <i class="fas fa-play"> </i>
+                Live
+              </button>
+              <button class="stop-live" id="stop_live">
+                <i class="fas fa-stop"> </i>
+                Stop Live
+              </button>
+              <!-- Trigger -->
+              <button class="trigger" id="trigger">
+                <i class="fas fa-camera"> </i>
+                Trigger
+              </button>
+            </div>
+            <div class="buttons-right">
+              <button class="open-model" id="open-model">
+                <i class="fas fa-solid fa-cloud"></i>
+                Model
+              </button>
+              <button class="open-settings" id="open-settings">
+                <i class="fas fa-cog"> </i>
+                Settings
+              </button>
+            </div>
+          </div>
+
+          <div class="container-result">
+            <p class="result">COUNTING</p>
+            <p class="count" id="count-actual">0</p>
+            <p class="actual" id="count-standard">0</p>
+
+          </div>
+          <div class="live-stream">
+            <h3>Processed Image</h3>
+            <img src="" id="processed-image" alt="" />
+            <h3>Original Image</h3>
+            <img src="" id="original-image" alt="" />
+          </div>
+        </div>
+
+        <div class="right-panel">
+          <div id="model-group" class="model-group">
+            <label for="nameM odel">Name model:</label>
+            <h3 class="nameModel" id="name-model">AHSO</h3>
+          </div>
+          <div class="wires-group">
+            <label for="wires">Wires:</label>
+            <input type="number" id="wires-number">
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="javascript/index.js"></script>
+  </body>
+</html>
+
+# ============================= SCSS ==============================
+// === Variables ===
+$primary-color: #007bff;
+$danger-color: #dc3545;
+$success-color: #28a745;
+$warning-color: #ffc107;
+$gray-color: #6c757d;
+$light-color: #f8f9fa;
+$dark-color: #343a40;
+$border-color: #ddd;
+$text-color: white;
+
+// === Global Spacing ===
+$margin-bottom: 10px;
+$margin-right: 10px;
+$margin-top: 10px;
+$boder-radius-all: 10px;
+
+// === Mixins ===
+@mixin button-style($bg-color) {
+  width: 48%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: $bg-color;
+  transition: transform 0.2s, opacity 0.2s;
+
+  &:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+// === Inputs ===
+@mixin input-style($bg-color) {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: $gray-color;
+    outline: none;
+  }
+}
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: $light-color;
+  font-size: 16px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.header {
+  width: 100%;
+  background-color: $dark-color;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 24px;
+}
+
+.content {
+  display: flex;
+  width: 100%;
+  max-width: 1500px;
+  margin-top: 20px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+.left-panel {
+  flex: 2;
+  padding: 5px 20px;
+  .buttons-group {
+    display: flex;
+    justify-content: space-between;
+    .buttons-left,
+    .buttons-right {
+      // display: flex;
+      button {
+        @include button-style(-color);
+        width: 8vw;
+        background-color: $gray-color;
+      }
+    }
+    .buttons-left {
+      justify-content: left;
+    }
+    .buttons-right {
+      justify-content: right;
+    }
+  }
+  .container-result {
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    gap: $margin-right;
+    p {
+      padding: 20px;
+      width: 50%;
+      text-align: center;
+      color: $text-color;
+      &.result {
+        background-color: $success-color;
+      }
+      &.count {
+        background-color: $primary-color;
+      }
+      &.actual{
+        background-color: $gray-color;
+      }
+    }
+  }
+  .live-stream {
+    height: 25vh;
+
+    h3 {
+      margin-bottom: $margin-bottom;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+}
+
+.right-panel {
+  flex: 1;
+  padding: 20px;
+  background-color: white;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  .model-group{
+    display: flex;
+    align-items: center;
+    
+  }
+ 
+  .button-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    button {
+      width: 100%;
+      margin-bottom: 10px;
+      @include button-style($primary-color);
+    }
+  }
+
+  button.connect {
+    @include button-style($primary-color);
+  }
+  button.disconnect {
+    @include button-style($danger-color);
+  }
+  button.trigger {
+    @include button-style($success-color);
+  }
+  button.live {
+    @include button-style($success-color);
+  }
+  button.stop-live {
+    @include button-style($warning-color);
+  }
+  button.open-settings {
+    @include button-style($gray-color);
+  }
+}
+
+"files": [
+      ".vscode/**/*",
+      "backend/**/*",
+      "images/**/*",
+      "javascript/**/*",
+      "language/**/*",
+      "node_modules/**/*",
+      "style/**/*",
+      "view/**/*",
+      "index.html",
+      "main.js",
+      "package.json",
+      "package-lock.json"
+    ],

@@ -1,0 +1,212 @@
+let canvas = new fabric.Canvas("canvas");
+let uploadedImage;
+// =========================== Scale Image ===========================
+document
+  .getElementById("imageInput")
+  .addEventListener("change", function (event) {
+    let file = event.target.files[0];
+    let reader = new FileReader();
+    reader.onload = function (e) {
+      fabric.Image.fromURL(e.target.result, function (image) {
+        uploadedImage = image;
+        canvas.clear();
+        let maxWidth = 500;
+        imageScale = maxWidth / image.width;
+        console.log("Image scale: ", imageScale);
+        image.scale(imageScale);
+        canvas.setWidth(image.width * imageScale);
+        canvas.setHeight(image.height * imageScale);
+        canvas.add(image);
+        canvas.renderAll();
+        image.selectable = false;
+      });
+    };
+    reader.readAsDataURL(file);
+  });
+// =========================== Add Shape ===========================
+function addShape(type) {
+  let shape;
+  switch (type) {
+    case "rect":
+      shape = new fabric.Rect({
+        left: 50,
+        top: 50,
+        width: 100,
+        height: 100,
+        fill: "transparent",
+        stroke: "red",
+        strokeWidth: 2,
+        selectable: true,
+      });
+      break;
+    case "circle":
+      shape = new fabric.Circle({
+        left: 50,
+        top: 50,
+        radius: 50,
+        fill: "transparent",
+        stroke: "red",
+        strokeWidth: 2,
+        selectable: true,
+      });
+      break;
+    case "triangle":
+      shape = new fabric.Triangle({
+        left: 50,
+        top: 50,
+        width: 100,
+        height: 100,
+        fill: "transparent",
+        stroke: "red",
+        strokeWidth: 2,
+        selectable: true,
+      });
+      break;
+    case "ellipse":
+      shape = new fabric.Ellipse({
+        left: 50,
+        top: 50,
+        rx: 80, // Bán kính theo chiều ngang
+        ry: 40, // Bán kính theo chiều dọc
+        fill: "transparent",
+        stroke: "red",
+        strokeWidth: 2,
+        selectable: true,
+      });
+      break;
+    case "ring": // Tròn xuyến (Circle with hole)
+      // Hình tròn ngoài
+      shape = new fabric.Circle({
+        left: 50,
+        top: 50,
+        width: 100,
+        height:100,
+        radius: 80, // Bán kính ngoài
+        fill: "transparent",
+        stroke: "red",
+        strokeWidth: 2,
+        selectable: true,
+      });
+  }
+  canvas.add(shape);
+}
+
+// =========================== Crop Image ===========================
+function cropImage() {
+  if (!uploadedImage) {
+    alert("Chưa có ảnh để cắt!");
+    return;
+  }
+
+  if (typeof cv === "undefined" || !cv.imread) {
+    alert("OpenCV chưa sẵn sàng! Vui lòng thử lại sau.");
+    return;
+  }
+
+  let activeObj = canvas.getActiveObject();
+  if (!activeObj) {
+    alert("Vui lòng chọn một vùng cần cắt!");
+    return;
+  }
+
+  // Lấy góc xoay của khung cắt
+  let angle = activeObj.angle;
+  console.log("Angle: ", angle);
+
+  // Lấy các tọa độ góc của đối tượng (sau khi xoay)
+  let corners = activeObj.getCoords();
+
+  // Tính toán trung bình của các góc để xác định trung tâm
+  let centerX = (corners[0].x + corners[1].x + corners[2].x + corners[3].x) / 4;
+  let centerY = (corners[0].y + corners[1].y + corners[2].y + corners[3].y) / 4;
+  console.log("CenterX: ", centerX);
+  console.log("CenterY: ", centerY);
+
+  // Tính toán các giá trị của vùng cắt theo vị trí của đối tượng
+  let cropWidth = Math.round(activeObj.getScaledWidth() / imageScale);
+  let cropHeight = Math.round(activeObj.getScaledHeight() / imageScale);
+
+  // Tính toán chính xác vị trí của vùng cắt dựa trên centerX và centerY
+  let cropX = Math.round(centerX / imageScale - cropWidth / 2);
+  let cropY = Math.round(centerY / imageScale - cropHeight / 2);
+
+  console.log("CropX: ", cropX);
+  console.log("CropY: ", cropY);
+  console.log("cropWidth: ", cropWidth);
+  console.log("cropHeight: ", cropHeight);
+
+  if (cropWidth <= 0 || cropHeight <= 0) {
+    alert("Vùng cắt không hợp lệ!");
+    return;
+  }
+
+  // Đọc ảnh gốc từ DOM
+  let imgElement = uploadedImage.getElement();
+  let src = cv.imread(imgElement);
+
+  // Tính toán vùng cắt (đảm bảo không vượt quá giới hạn ảnh)
+  cropX = Math.max(0, Math.min(cropX, src.cols - 1));
+  cropY = Math.max(0, Math.min(cropY, src.rows - 1));
+  cropWidth = Math.min(cropWidth, src.cols - cropX);
+  cropHeight = Math.min(cropHeight, src.rows - cropY);
+
+  // Tạo một ma trận xoay để tính toán vùng cắt
+  let center = new cv.Point(cropX + cropWidth / 2, cropY + cropHeight / 2);
+  console.log(center);
+
+  // Tạo ma trận xoay (giữ góc của khung)
+  let rotationMatrix = cv.getRotationMatrix2D(center, angle, 1.0);
+
+  // Tạo một hình ảnh tạm thời để áp dụng phép xoay ngược
+  let rotatedImage = new cv.Mat();
+  cv.warpAffine(
+    src,
+    rotatedImage,
+    rotationMatrix,
+    new cv.Size(src.cols, src.rows)
+  );
+
+  // Cắt ảnh từ hình ảnh đã xoay ngược
+  let rect = new cv.Rect(cropX, cropY, cropWidth, cropHeight);
+  let dst = rotatedImage.roi(rect);
+
+  // Hiển thị kết quả lên canvasOutput
+  let canvasOutputElement = document.getElementById("canvasOutput");
+  canvasOutputElement.width = cropWidth;
+  canvasOutputElement.height = cropHeight;
+
+  // Hiển thị ảnh đã cắt
+  cv.imshow("canvasOutput", dst);
+  console.log("Angle: ", angle);
+  // canvasOutputElement.style.transform = `rotate(${angle}deg)`;
+
+  // Giải phóng bộ nhớ
+  src.delete();
+  rotatedImage.delete();
+  dst.delete();
+  rotationMatrix.delete();
+}
+// Xóa khung vẽ
+function clearCanvas() {
+  let activeObj = canvas.getActiveObject();
+  if (activeObj) {
+    canvas.remove(activeObj); // Xóa đối tượng đang chọn
+  } else {
+    alert("Không có khung vẽ nào được chọn!");
+  }
+}
+
+// Lưu ảnh đã cắt
+function saveCroppedImage() {
+  let canvasOutputElement = document.getElementById("canvasOutput");
+  let croppedCanvas = canvasOutputElement.getContext("2d");
+
+  // Lấy dữ liệu từ canvasOutput
+  let dataUrl = croppedCanvas.canvas.toDataURL("image/png");
+
+  // Tạo liên kết tải xuống
+  let link = document.createElement("a");
+  link.href = dataUrl;
+  link.download = "cropped_image.png"; // Tên file ảnh khi tải về
+  link.click();
+}

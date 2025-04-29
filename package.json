@@ -1,0 +1,75 @@
+{
+  "name": "demo-drb",
+  "version": "1.0.0",
+  "description": "DRB Application",
+  "main": "main.js",
+  "scripts": {
+    "start": "npx electron .",
+    "build": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "bmp-js": "^0.1.0",
+    "edge.js": "^6.2.0",
+    "fabric": "^6.6.1"
+  },
+  "devDependencies": {
+    "electron": "^25.0.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.yourcompany.demo-drb",
+    "productName": "DRB",
+    "copyright": "Copyright © 2024",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "asar": true,
+    "files": [
+      "backend/images-logo/**/*",
+      "javascript/**/*",
+      "language/**/*",
+      "node_modules/**/*",
+      "style/**/*",
+      "view/**/*",
+      "index.html",
+      "main.js",
+      "package.json",
+      "package-lock.json"
+    ],
+    "win": {
+      "icon": "./backend/images-logo/logo-drb.ico",
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "mac": {
+      "icon": "./backend/images-logo/logo-drb.ico",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "linux": {
+      "icon": "./backend/images-logo/logo-drb.ico",
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AHSO-CO-LTD/Camera-Controler.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AHSO-CO-LTD/Camera-Controler/issues"
+  },
+  "homepage": "https://github.com/AHSO-CO-LTD/Camera-Controler#readme"
+}
